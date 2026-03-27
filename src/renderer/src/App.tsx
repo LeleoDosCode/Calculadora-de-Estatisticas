@@ -8,15 +8,13 @@ function App(): React.JSX.Element {
   const [resultados, setResultados] = useState<EstatisticasDescritivas | null>(null);
 
   const handleSave = () => {
-    const texto = `
-      Resultados\n
-      Média: ${resultados?.media.toFixed(2)}\n
-      Mediana: ${resultados?.mediana.toFixed(2)}\n
-      Desvio Padrão: ${resultados?.desvioPadrao.toFixed(2)}\n
-      Variância: ${resultados?.variancia.toFixed(2)}\n
-      Minimo: ${resultados?.minimo.toFixed(2)}\n
-      Maximo: ${resultados?.maximo.toFixed(2)}
-    `
+    const texto = `Resultados:
+Média: ${resultados?.media.toFixed(2)}
+Mediana: ${resultados?.mediana.toFixed(2)}
+Desvio Padrão: ${resultados?.desvioPadrao.toFixed(2)}
+Variância: ${resultados?.variancia.toFixed(2)}
+Minimo: ${resultados?.minimo.toFixed(2)}
+Maximo: ${resultados?.maximo.toFixed(2)}`
 
     window.api.saveText(texto);
   }
@@ -30,7 +28,7 @@ function App(): React.JSX.Element {
     const estatisticas = calcularEstatistica(arrayNumber);
 
     setResultados(estatisticas);
-  })
+  }, [inputValores]);
 
   return (
     <section>
@@ -38,16 +36,15 @@ function App(): React.JSX.Element {
 
       <div>
         <label>Digite os valores separados por virgula (ex: 10, 20.5, 30): </label>
-        <input
-          type="text"
+        <textarea
           value={inputValores}
           onChange={(e) => setInputValores(e.target.value)}
+          rows={4}
         />
       </div>
 
       {resultados && (
         <div className="resultados">
-          <h2>Resultados</h2>
           <div className="lista">
             <ul>
               <li><strong>Média: </strong>{resultados.media.toFixed(2)}</li>
