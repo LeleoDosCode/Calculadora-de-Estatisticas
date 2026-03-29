@@ -82,7 +82,7 @@ ipcMain.handle('saveText', async (event, dados: string) => {
   try{
     const {canceled, filePath} = await dialog.showSaveDialog({
       title: 'Salvar resultado',
-      defaultPath: 'resultado.txt',
+      defaultPath: 'resultados.txt',
       filters: [{ name: 'Documento de Texto', extensions: ['txt']}]
     });
 
