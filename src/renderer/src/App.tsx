@@ -6,6 +6,22 @@ function App(): React.JSX.Element {
   const [inputValores, setInputValores] = useState<string>('');
   const [resultados, setResultados] = useState<EstatisticasDescritivas | null>(null);
 
+  const handleImport = async () => {
+    const conteudo = await window.api.importCSV();
+
+    if(conteudo){
+      const elementos = conteudo.split(/[\n ,;:]+/); // aceita ; , : newline
+
+      const numerosValidos = elementos
+      .map(item => item.trim())
+      .filter(item => item !== '' && !isNaN(parseFloat(item)));
+
+      const textoInputs = numerosValidos.join(', ');
+
+      setInputValores(textoInputs);
+    }
+  }
+
   const handleSave = () => {
     const texto = `Resultados:
 Média: ${resultados?.media.toFixed(2)}
@@ -64,6 +80,10 @@ Maximo: ${resultados?.maximo.toFixed(2)}`
           </div>
         </div>
       )}
+
+      <button onClick={handleImport} className="btn-importar">
+        CSV
+      </button>
 
       <button
         onClick={handleSave}

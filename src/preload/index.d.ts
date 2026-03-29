@@ -1,7 +1,6 @@
-import { promises } from "dns";
-
 export interface IApi{
-  saveText: (dados: string) => promise<boolean>;
+  saveText: (dados: string) => Promise<boolean>;
+  importCSV: () => Promise<string | null>;
 }
 
 declare global {

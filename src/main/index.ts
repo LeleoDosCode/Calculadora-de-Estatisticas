@@ -98,3 +98,17 @@ ipcMain.handle('saveText', async (event, dados: string) => {
     return false;
   }
 })
+
+ipcMain.handle('importCSV', async () => {
+  const {canceled, filePaths} = await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [{name: 'Arquivo CSV', extensions: ['csv']}]
+
+  });
+  if (canceled || filePaths.length === 0) {
+    return null;
+  }
+
+  const conteudo = fs.readFileSync(filePaths[0], 'utf-8')
+  return conteudo
+})
