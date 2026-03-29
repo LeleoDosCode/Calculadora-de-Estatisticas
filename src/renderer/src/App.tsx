@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { calcularEstatistica, EstatisticasDescritivas } from "./utils/stats";
 import './assets/app.css'
-import { text } from "stream/consumers";
 
 function App(): React.JSX.Element {
   const [inputValores, setInputValores] = useState<string>('');
@@ -21,7 +20,7 @@ Maximo: ${resultados?.maximo.toFixed(2)}`
 
   useEffect(() => {
     const arrayNumber = inputValores
-      .split(',')
+      .split(/[ ,;]+/)
       .map((item) => parseFloat(item.trim()))
       .filter((numero) => !isNaN(numero));
 
@@ -32,7 +31,7 @@ Maximo: ${resultados?.maximo.toFixed(2)}`
 
   return (
     <section>
-      <h1>Calculadora de estatisticas</h1>
+      <h1>Calculadora de estatísticas</h1>
 
       <div>
         <label>Digite os valores separados por virgula (ex: 10, 20.5, 30): </label>
@@ -47,23 +46,30 @@ Maximo: ${resultados?.maximo.toFixed(2)}`
         <div className="resultados">
           <div className="lista">
             <ul>
-              <li><strong>Média: </strong>{resultados.media.toFixed(2)}</li>
-              <li><strong>Mediana: </strong>{resultados.mediana.toFixed(2)}</li>
-              <li><strong>Desvio Padrão: </strong>{resultados.desvioPadrao.toFixed(2)}</li>
+              <li><strong>Média: </strong></li>
+              <li>{resultados.media.toFixed(2)}</li>
+              <li><strong>Mediana: </strong></li>
+              <li>{resultados.mediana.toFixed(2)}</li>
+              <li><strong>Desvio Padrão: </strong></li>
+              <li>{resultados.desvioPadrao.toFixed(2)}</li>
             </ul>
             <ul>
-              <li><strong>Variância: </strong>{resultados.variancia.toFixed(2)}</li>
-              <li><strong>Mínimo: </strong>{resultados.minimo.toFixed(2)}</li>
-              <li><strong>Máximo: </strong>{resultados.maximo.toFixed(2)}</li>
+              <li><strong>Variância: </strong></li>
+              <li>{resultados.variancia.toFixed(2)}</li>
+              <li><strong>Mínimo: </strong></li>
+              <li>{resultados.minimo.toFixed(2)}</li>
+              <li><strong>Máximo: </strong></li>
+              <li>{resultados.maximo.toFixed(2)}</li>
             </ul>
           </div>
         </div>
       )}
-        <button
-          onClick={handleSave}
-        >
-          Salvar
-        </button>
+
+      <button
+        onClick={handleSave}
+      >
+        Salvar
+      </button>
     </section>
   )
 }
