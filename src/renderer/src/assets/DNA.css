@@ -1,0 +1,118 @@
+.resultados {
+    display: flex;
+    /* width: 60%; */
+    /* max-width: 60%; */
+    justify-content: space-around;
+    align-items: center;
+    height: 240px;
+    border: #111113 2px solid;
+    padding: 15px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    color: black;
+
+    & .lista {
+        display: flex;
+        width: 90%;
+        height: 90%;
+        font-size: 20px;
+        flex-direction: row;
+        justify-content: space-between;
+
+        & ul {
+            font-size: 15px;
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            gap: 5px;
+        }
+    }
+}
+.contentDNA{
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    width: 60%;
+    gap: 20px;
+}
+.paragrafoDNA{
+    display: flex;
+    justify-content: center;
+}
+.areaTexto {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.labelEnfase{
+    display: flex;
+}
+
+
+.btn-dna {
+    position: absolute;
+    cursor: pointer;
+    bottom: 5%;
+    right: 3%;
+    border-radius: 100%;
+    width: 75px;
+    height: 75px;
+    background: linear-gradient(to bottom, #7db9e8 0%, #207cca 50%, #1e5799 100%);
+    border: 2px solid #ffffff;
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.8), 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    transition: all 200ms;
+}
+
+.btn-importar {
+    position: absolute;
+    bottom: 17%;
+    background: linear-gradient(to bottom, #91e052, #4ca60b);
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 200ms;
+}
+
+.btn-hover:hover {
+    transition: all 200ms;
+    box-shadow: inset 0px 2px 15px rgba(255, 255, 255, 0.8), 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+.enfase {
+    display: flex;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-right: 2.5px;
+    margin-left: 2.5px;
+    width: 20px;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.bnt-voltar{
+    position: absolute;
+    left: 1%;
+    top: 1%;
+    max-width: 50px;
+}

@@ -1,0 +1,41 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    letter-spacing: 0.5px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg,
+            #7db9e8 0%,
+            #b6eaff 30%,
+            #ccf0b1 70%,
+            #91e052 100%);
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    gap: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1a3a5a;
+    letter-spacing: 0.3px;
+}
+.btn-frutiger {
+    & img {
+        position: relative;
+        display: inline-block;
+    }
+
+    & span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+    }
+}
