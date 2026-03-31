@@ -78,7 +78,9 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.handle('saveText', async (event, dados: string) => {
+
+/* Minha parte começa aqui */
+ipcMain.handle('saveText', async (_event, dados: string) => {
   try{
     const {canceled, filePath} = await dialog.showSaveDialog({
       title: 'Salvar resultado',
