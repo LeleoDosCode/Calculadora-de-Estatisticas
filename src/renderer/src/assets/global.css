@@ -27,15 +27,23 @@ section {
     letter-spacing: 0.3px;
 }
 .btn-frutiger {
+    cursor: pointer;
+    border-radius: 100%;
+    width: 85px;
+    max-width: 85px;
     & img {
         position: relative;
         display: inline-block;
+        max-width: 85px;
     }
 
     & span {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, 50%);
         position: absolute;
+        z-index: 1;
+        font-weight: bold;
     }
 }

@@ -7,7 +7,7 @@ function Home(): React.JSX.Element {
 
   return (
     <section>
-      <h1>Calculadora Estatística Nome do Grupo versão 1.1.0</h1>
+      <h1>Calculadora Estatística Nome do Grupo versão 1.1.2</h1>
       <div className="selecao">
         <p>Tipagem de dados: </p>
         <div className="caixaBotoes">

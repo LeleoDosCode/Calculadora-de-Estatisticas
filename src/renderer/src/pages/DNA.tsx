@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import '../assets/DNA.css'
 import '../assets/global.css';
 import voltar from '../assets/frutiger/Aero Voltar.png';
+import aeroVerde from "../assets/frutiger/Aero Verde.png";
+import aeroAzul from "../assets/frutiger/Aero Azul.png";
 
 function DNA(): React.JSX.Element {
   const [inputValores, setInputValores] = useState<string>('');
@@ -91,15 +93,17 @@ Maximo: ${resultados?.maximo.toFixed(2)}`
 
 
 
-      <button onClick={handleImport} className="btn-importar btn-dna btn-hover">
-        CSV
-      </button>
+      <div onClick={handleImport} className="btn-frutiger btn-dna2">
+        <span>CSV</span>
+        <img src={aeroVerde} alt="" />
+      </div>
 
-      <button className="btn-dna btn-hover"
+      <div className="btn-frutiger btn-dna"
         onClick={handleSave}
       >
-        Salvar
-      </button>
+        <span>Salvar</span>
+        <img src={aeroAzul} alt="" />
+      </div>
     </section>
   )
 }
