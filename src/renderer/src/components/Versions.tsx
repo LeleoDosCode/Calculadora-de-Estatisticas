@@ -4,7 +4,8 @@ function Versions(): React.JSX.Element {
   const [versions] = useState({
     electron: '',
     chrome: '',
-    node: ''
+    node: '',
+    app: '1.1.3'
   })
 
   return (

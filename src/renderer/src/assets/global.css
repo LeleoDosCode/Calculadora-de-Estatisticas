@@ -47,3 +47,51 @@ section {
         font-weight: bold;
     }
 }
+.btn-adicionar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  overflow: hidden;
+  background: linear-gradient(180deg,
+    #6ec6f5 0%, #3a9fe8 40%,
+    #1a7fd4 60%, #2d9aef 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.5) inset,
+    0 -1px 0 rgba(0,0,0,0.15) inset,
+    0 4px 12px rgba(30,120,220,0.45);
+  transition: all 0.12s ease;
+}
+
+.btn-adicionar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 52%;
+  border-radius: 50px 50px 60% 60% / 50px 50px 40px 40px;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.75) 0%,
+    rgba(255,255,255,0.15) 100%);
+  pointer-events: none;
+}
+
+.btn-adicionar:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6) inset,
+    0 6px 18px rgba(30,120,220,0.55);
+}
+
+.btn-adicionar:active {
+  transform: translateY(1px);
+  background: linear-gradient(180deg,
+    #3a9fe8 0%, #1570c0 100%);
+}

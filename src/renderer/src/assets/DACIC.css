@@ -1,0 +1,15 @@
+.resultados-painel{
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+.importButton{
+    position: absolute;
+    cursor: pointer;
+    right: 2%;
+    bottom: 2%;
+    max-width: 150px;
+}

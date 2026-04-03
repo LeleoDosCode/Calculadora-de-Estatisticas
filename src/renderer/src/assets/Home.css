@@ -9,20 +9,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
     gap: 15px;
+    height: 40vh;
+    width: 100%;
+
+    & p {
+        font-size: 20px;
+    }
 
     & .caixaBotoes {
         display: flex;
         flex-direction: row;
-        gap: 20px;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        gap: 15px;
 
         & .botoes {
+            display: flex;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
             border-radius: 15px;
-            width: 75px;
-            height: 75px;
+            width: 80%;
+            height: 100%;
+            flex: 1;
             background: linear-gradient(to bottom, #7db9e8 0%, #207cca 50%, #1e5799 100%);
-            border: 2px solid #ffffff;
+            border: 1px solid #ffffffad;
             box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.8), 0 5px 15px rgba(0, 0, 0, 0.2);
             color: white;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -33,5 +48,35 @@
             transition: all 200ms;
             box-shadow: inset 0px 2px 15px rgba(255, 255, 255, 0.8), 0 5px 15px rgba(0, 0, 0, 0.2);
         }
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    width: 80%;
+    & h1 {
+        font-size: 70px;
+    }
+}
+
+footer {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 20%;
+    border-radius: 10px 10px 0 0;
+    justify-content: center;
+
+    & ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        align-items: center;
+        padding-top: 5px;
     }
 }
