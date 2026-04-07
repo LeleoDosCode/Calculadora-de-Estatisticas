@@ -9,6 +9,7 @@ import '../assets/DACIC.css';
 import 'react-data-grid/lib/styles.css';
 import voltar from '../assets/frutiger/Aero Voltar.png';
 import importButton from '../assets/frutiger/importButton.png'
+import { versao } from '../utils/versao'
 
 interface LinhaDACIC {
     id: number;
@@ -132,30 +133,30 @@ function DACIC(): React.JSX.Element {
 
         const ext = file.name.split('.').pop()?.toLowerCase();
 
-        if(ext === 'csv'){
+        if (ext === 'csv') {
             Papa.parse<string[]>(file, {
                 complete: (result) => {
                     const novasLinhas: LinhaDACIC[] = result.data
-                    .filter(row => row.length >= 3 && row[0] !== '')
-                    .map((row, i) => ({
-                        id: Date.now() + i,
-                        minimo: row[0] ?? '',
-                        maximo: row[1] ?? '',
-                        frequencia: row[2] ?? '',
-                    }));
+                        .filter(row => row.length >= 3 && row[0] !== '')
+                        .map((row, i) => ({
+                            id: Date.now() + i,
+                            minimo: row[0] ?? '',
+                            maximo: row[1] ?? '',
+                            frequencia: row[2] ?? '',
+                        }));
                     setLinhas(novasLinhas);
                 },
                 skipEmptyLines: true,
             });
-        } else if(ext === 'xlsx' || ext === 'xls'){
+        } else if (ext === 'xlsx' || ext === 'xls') {
             const reader = new FileReader();
             reader.onload = (ev) => {
                 const data = new Uint8Array(ev.target!.result as ArrayBuffer);
-                const workbook = XLSX.read(data, {type: 'array'});
+                const workbook = XLSX.read(data, { type: 'array' });
                 const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                const rows: string[][] = XLSX.utils.sheet_to_json(sheet, {header: 1});
+                const rows: string[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
                 const novasLinhas: LinhaDACIC[] = rows
-                    .filter(row => rows.length >= 3 && row[0] !== undefined)
+                    .filter(row => row.length >= 3 && row[0] !== undefined)
                     .map((row, i) => ({
                         id: Date.now() + i,
                         minimo: String(row[0] ?? ''),
@@ -171,58 +172,67 @@ function DACIC(): React.JSX.Element {
 
     return (
         <section className="containerS">
-            <header style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-                <Link to="/">
-                    <img className="bnt-voltar" src={voltar} alt="Botão de voltar" style={{ cursor: 'pointer', height: '40px' }} />
-                </Link>
-                <h2 style={{ marginLeft: '15px', color: '#004a8d' }}>Dados Agrupados Com Intervalo de Classe (DACIC)</h2>
-            </header>
+            <div className="content">
 
-            <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start' }}>
-                <div style={{ width: '500px' }} className="planilha-aero">
-                    <DataGrid
-                        columns={colunas} rows={linhas} onRowsChange={(rows) => setLinhas(rows)}
-                        rowKeyGetter={(row) => row.id} style={{ height: '300px' }}
-                    />
-                    <button
-                        className="btn-adicionar" style={{ marginTop: '10px', width: '100%', padding: '10px' }}
-                        onClick={() => setLinhas([...linhas, { id: Date.now(), minimo: '', maximo: '', frequencia: '' }])}
-                    >
-                        + Adicionar Nova Classe
-                    </button>
-                    <input
-                        ref={inputRef} 
-                        type="file" 
-                        accept=".csv,.xlsx,.xls"
-                        style={{display: 'none'}}
-                        onChange={handleImport}
-                    />
+                <header style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+                    <Link to="/">
+                        <img className="bnt-voltar" src={voltar} alt="Botão de voltar" style={{ cursor: 'pointer', height: '40px' }} />
+                    </Link>
+                    <h2 style={{ marginLeft: '15px', color: '#004a8d' }}>Dados Agrupados Com Intervalo de Classe (DACIC)</h2>
+                </header>
 
-                    <img
-                        className='importButton' 
-                        src={importButton} alt=""
-                        onClick={() => inputRef.current?.click()}
-                    />
-                </div>
+                <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start' }}>
+                    <div style={{ width: '500px' }} className="planilha-aero">
+                        <DataGrid
+                            columns={colunas} rows={linhas} onRowsChange={(rows) => setLinhas(rows)}
+                            rowKeyGetter={(row) => row.id} style={{ height: '300px' }}
+                        />
+                        <button
+                            className="btn-adicionar" style={{ margin: '10px', width: '100%', padding: '10px' }}
+                            onClick={() => setLinhas([...linhas, { id: Date.now(), minimo: '', maximo: '', frequencia: '' }])}
+                        >
+                            + Adicionar Linha
+                        </button>
+                        <input
+                            ref={inputRef}
+                            type="file"
+                            accept=".csv,.xlsx,.xls"
+                            style={{ display: 'none' }}
+                            onChange={handleImport}
+                        />
 
-                <div className="resultados-painel" style={{ minWidth: '300px' }}>
-                    <h3>Resultados da Amostra</h3>
-                    <hr />
-                    {resultados ? (
-                        <ul style={{ listStyle: 'none', padding: 0, lineHeight: '2' }}>
-                            <li><strong>Média (x̄):</strong> {resultados.media.toFixed(4)}</li>
-                            <li><strong>Moda (Mo):</strong> {resultados.moda.toFixed(4)}</li>
-                            <li><strong>Mediana (Md):</strong> {resultados.mediana.toFixed(4)}</li>
-                            <hr style={{ opacity: 0.3, margin: '10px 0' }} />
-                            <li><strong>Amplitude Total:</strong> {resultados.amplitude.toFixed(4)}</li>
-                            <li><strong>Variância (s²):</strong> {resultados.variancia.toFixed(4)}</li>
-                            <li><strong>Desvio Padrão (s):</strong> {resultados.desvio.toFixed(4)}</li>
-                        </ul>
-                    ) : (
-                        <p style={{ opacity: 0.6 }}>Preencha a tabela para visualizar os cálculos.</p>
-                    )}
+                        <img
+                            className='importButton'
+                            src={importButton} alt=""
+                            onClick={() => inputRef.current?.click()}
+                        />
+                    </div>
+
+                    <div className="resultados-painel" style={{ minWidth: '300px' }}>
+                        <h3>Resultados da Amostra</h3>
+                        <hr />
+                        {resultados ? (
+                            <ul style={{ listStyle: 'none', padding: 0, lineHeight: '2' }}>
+                                <li><strong>Média (x̄):</strong> {resultados.media.toFixed(4)}</li>
+                                <li><strong>Moda (Mo):</strong> {resultados.moda.toFixed(4)}</li>
+                                <li><strong>Mediana (Md):</strong> {resultados.mediana.toFixed(4)}</li>
+                                <hr style={{ opacity: 0.3, margin: '10px 0' }} />
+                                <li><strong>Amplitude Total:</strong> {resultados.amplitude.toFixed(4)}</li>
+                                <li><strong>Variância (s²):</strong> {resultados.variancia.toFixed(4)}</li>
+                                <li><strong>Desvio Padrão (s):</strong> {resultados.desvio.toFixed(4)}</li>
+                            </ul>
+                        ) : (
+                            <p style={{ opacity: 0.6 }}>Preencha a tabela para visualizar os cálculos.</p>
+                        )}
+                    </div>
                 </div>
             </div>
+            <footer>
+                <ul>
+                    <li>Grupo 8</li>
+                    <li>Versão {versao}</li>
+                </ul>
+            </footer>
         </section>
     );
 }

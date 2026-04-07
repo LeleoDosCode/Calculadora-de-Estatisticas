@@ -1,5 +1,6 @@
 import '../assets/global.css'
 import '../assets/Home.css'
+import { versao } from '../utils/versao';
 import { Link } from "react-router-dom";
 
 function Home(): React.JSX.Element {
@@ -21,7 +22,7 @@ function Home(): React.JSX.Element {
       <footer>
         <ul>
           <li>Grupo 8</li>
-          <li>Versão 1.1.3</li>
+          <li>Versão {versao}</li>
         </ul>
       </footer>
     </section>

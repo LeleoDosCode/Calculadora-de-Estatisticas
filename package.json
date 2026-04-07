@@ -1,6 +1,6 @@
 {
   "name": "projeto-estatistica",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "example.com",
@@ -51,5 +51,17 @@
     "react-dom": "^19.2.1",
     "typescript": "^5.9.3",
     "vite": "^7.2.6"
+  },
+  "build": {
+  "appId": "com.seunome.projeto-estatistica",
+  "win": {
+    "icon": "resources/icon.ico"
+  },
+  "mac": {
+    "icon": "resources/icon.icns"
+  },
+  "linux": {
+    "icon": "resources/icon.png"
   }
+}
 }

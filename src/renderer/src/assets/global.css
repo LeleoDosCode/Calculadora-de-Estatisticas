@@ -95,3 +95,21 @@ section {
   background: linear-gradient(180deg,
     #3a9fe8 0%, #1570c0 100%);
 }
+footer {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 20%;
+    border-radius: 10px 10px 0 0;
+    justify-content: center;
+
+    & ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        align-items: center;
+        padding-top: 5px;
+    }
+}
