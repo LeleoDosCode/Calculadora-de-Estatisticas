@@ -3,12 +3,13 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico?asset'
+import * as XLSX from 'xlsx';
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1200,
+    height: 800,
     show: false,
 
     icon: icon,
@@ -81,36 +82,46 @@ app.on('window-all-closed', () => {
 
 /* Minha parte começa aqui */
 ipcMain.handle('saveText', async (_event, dados: string) => {
-  try{
-    const {canceled, filePath} = await dialog.showSaveDialog({
+  try {
+    const { canceled, filePath } = await dialog.showSaveDialog({
       title: 'Salvar resultado',
       defaultPath: 'resultados.txt',
-      filters: [{ name: 'Documento de Texto', extensions: ['txt']}]
+      filters: [{ name: 'Documento de Texto', extensions: ['txt'] }]
     });
 
-    if(canceled || !filePath){
+    if (canceled || !filePath) {
       return false;
     }
 
     fs.writeFileSync(filePath, dados, 'utf-8');
 
     return true;
-  } catch (erro){
+  } catch (erro) {
     console.error('Erro ao salvar arquivo', erro);
     return false;
   }
 })
 
 ipcMain.handle('importCSV', async () => {
-  const {canceled, filePaths} = await dialog.showOpenDialog({
+  const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openFile'],
-    filters: [{name: 'Arquivo CSV', extensions: ['csv']}]
-
+    filters: [{ name: 'Planilha', extensions: ['csv', 'xlsx'] }]
   });
+
   if (canceled || filePaths.length === 0) {
     return null;
   }
 
-  const conteudo = fs.readFileSync(filePaths[0], 'utf-8')
-  return conteudo
+  const filePath = filePaths[0];
+  const ext = filePath.split('.').pop();
+
+  if (ext === 'xlsx') {
+    const workbook = XLSX.readFile(filePath);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+    const csv = XLSX.utils.sheet_to_csv(sheet);
+    return csv;
+  }
+
+  return fs.readFileSync(filePath, 'utf-8')
 })

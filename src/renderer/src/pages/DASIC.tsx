@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DataGrid, renderTextEditor, Column } from 'react-data-grid';
+import { salvarResultados } from '@renderer/utils/salvar';
 import * as XLSX from 'xlsx';
 import Papa from 'papaparse';
 
@@ -9,6 +10,7 @@ import '../assets/DACIC.css';
 import 'react-data-grid/lib/styles.css';
 import voltar from '../assets/frutiger/Aero Voltar.png';
 import importButton from '../assets/frutiger/importButton.png'
+import saveButton from '../assets/frutiger/saveButton.png'
 import { versao } from '../utils/versao'
 
 interface LinhaDASIC {
@@ -25,14 +27,19 @@ function DASIC(): React.JSX.Element {
     ]);
 
     const [resultados, setResultados] = useState<{
-        media: number; variancia: number; desvio: number;
-        moda: number; mediana: number; amplitude: number;
+        media: number; variancia: number; desvioPadrao: number;
+        moda: number; mediana: number; amplitudeTotal: number;
     } | null>(null);
 
     const colunas: Column<LinhaDASIC>[] = [
         { key: 'valor', name: 'Valor', renderEditCell: renderTextEditor },
         { key: 'frequencia', name: 'Frequência (f)', renderEditCell: renderTextEditor },
     ];
+
+    const handleSave = () => {
+        if (!resultados) return;
+        salvarResultados(resultados, 'Dados Agrupados Sem Intervalo de Classe (DASIC)');
+    };
 
     useEffect(() => {
         try {
@@ -74,7 +81,6 @@ function DASIC(): React.JSX.Element {
 
                 for (let i = 0; i < linhasValidas.length; i++) {
                     const linhaAtual = linhasValidas[i]
-                    const freqAcumuladaAnterior = freqAcumulada;
                     freqAcumulada += linhaAtual.freq;
 
                     if (freqAcumulada >= posicaoMediana) {
@@ -83,20 +89,19 @@ function DASIC(): React.JSX.Element {
                     }
                 }
 
-                let indiceModal = 0;
                 let maiorFreq = -1;
-                linhasValidas.forEach((linha, index) => {
+                let modaCalculada = 0;
+
+                linhasValidas.forEach((linha) => {
                     if (linha.freq > maiorFreq) {
                         maiorFreq = linha.freq;
-                        indiceModal = index;
+                        modaCalculada = linha.val; // ← isso estava faltando
                     }
                 });
 
-                let modaCalculada = 0;
-
                 setResultados({
-                    media: mediaCalculada, variancia: varianciaCalculada, desvio: desvioCalculado,
-                    moda: modaCalculada, mediana: medianaCalculada, amplitude: amplitudeCalculada
+                    media: mediaCalculada, variancia: varianciaCalculada, desvioPadrao: desvioCalculado,
+                    moda: modaCalculada, mediana: medianaCalculada, amplitudeTotal: amplitudeCalculada
                 });
 
             } else {
@@ -159,7 +164,7 @@ function DASIC(): React.JSX.Element {
                     <Link to="/">
                         <img className="bnt-voltar" src={voltar} alt="Botão de voltar" style={{ cursor: 'pointer', height: '40px' }} />
                     </Link>
-                    <h2 style={{ marginLeft: '15px', color: '#004a8d' }}>Dados Agrupados Sem Intervalo de Classe (DACIC)</h2>
+                    <h2 style={{ marginLeft: '15px', color: '#004a8d' }}>Dados Agrupados Sem Intervalo de Classe (DASIC)</h2>
                 </header>
 
                 <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start' }}>
@@ -183,9 +188,16 @@ function DASIC(): React.JSX.Element {
                         />
 
                         <img
+                            style={{ marginBottom: '5%' }}
                             className='importButton'
                             src={importButton} alt=""
                             onClick={() => inputRef.current?.click()}
+                        />
+
+                        <img
+                            className='importButton'
+                            onClick={handleSave}
+                            src={saveButton} alt=""
                         />
                     </div>
 
@@ -194,13 +206,12 @@ function DASIC(): React.JSX.Element {
                         <hr />
                         {resultados ? (
                             <ul style={{ listStyle: 'none', padding: 0, lineHeight: '2' }}>
-                                <li><strong>Média (x̄):</strong> {resultados.media.toFixed(4)}</li>
                                 <li><strong>Moda (Mo):</strong> {resultados.moda.toFixed(4)}</li>
+                                <li><strong>Média (x̄):</strong> {resultados.media.toFixed(4)}</li>
                                 <li><strong>Mediana (Md):</strong> {resultados.mediana.toFixed(4)}</li>
                                 <hr style={{ opacity: 0.3, margin: '10px 0' }} />
-                                <li><strong>Amplitude Total:</strong> {resultados.amplitude.toFixed(4)}</li>
-                                <li><strong>Variância (s²):</strong> {resultados.variancia.toFixed(4)}</li>
-                                <li><strong>Desvio Padrão (s):</strong> {resultados.desvio.toFixed(4)}</li>
+                                <li><strong>Amplitude Total:</strong> {resultados.amplitudeTotal.toFixed(4)}</li>
+                                <li><strong>Desvio Padrão (s):</strong> {resultados.desvioPadrao.toFixed(4)}</li>
                             </ul>
                         ) : (
                             <p style={{ opacity: 0.6 }}>Preencha a tabela para visualizar os cálculos.</p>

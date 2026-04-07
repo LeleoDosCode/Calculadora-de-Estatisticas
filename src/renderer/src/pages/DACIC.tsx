@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { DataGrid, renderTextEditor, Column } from 'react-data-grid';
 import * as XLSX from 'xlsx';
 import Papa from 'papaparse';
+import { salvarResultados } from "@renderer/utils/salvar";
 
 import '../assets/global.css';
 import '../assets/DACIC.css';
 import 'react-data-grid/lib/styles.css';
 import voltar from '../assets/frutiger/Aero Voltar.png';
 import importButton from '../assets/frutiger/importButton.png'
+import saveButton from '../assets/frutiger/saveButton.png'
 import { versao } from '../utils/versao'
 
 interface LinhaDACIC {
@@ -26,8 +28,8 @@ function DACIC(): React.JSX.Element {
     ]);
 
     const [resultados, setResultados] = useState<{
-        media: number; variancia: number; desvio: number;
-        moda: number; mediana: number; amplitude: number;
+        media: number; variancia: number; desvioPadrao: number;
+        moda: number; mediana: number; amplitudeTotal: number;
     } | null>(null);
 
     const colunas: Column<LinhaDACIC>[] = [
@@ -35,6 +37,11 @@ function DACIC(): React.JSX.Element {
         { key: 'maximo', name: 'Lim. Superior', renderEditCell: renderTextEditor },
         { key: 'frequencia', name: 'Frequência (f)', renderEditCell: renderTextEditor },
     ];
+
+    const handleSave = () => {
+        if (!resultados) return;
+        salvarResultados(resultados, 'Dados Agrupados Sem Intervalo de Classe (DASIC)');
+    };
 
     useEffect(() => {
         try {
@@ -112,8 +119,8 @@ function DACIC(): React.JSX.Element {
                 }
 
                 setResultados({
-                    media: mediaCalculada, variancia: varianciaCalculada, desvio: desvioCalculado,
-                    moda: modaCalculada, mediana: medianaCalculada, amplitude: amplitudeCalculada
+                    media: mediaCalculada, variancia: varianciaCalculada, desvioPadrao: desvioCalculado,
+                    moda: modaCalculada, mediana: medianaCalculada, amplitudeTotal: amplitudeCalculada
                 });
 
             } else {
@@ -202,9 +209,16 @@ function DACIC(): React.JSX.Element {
                         />
 
                         <img
+                            style={{ marginBottom: '5%' }}
                             className='importButton'
                             src={importButton} alt=""
                             onClick={() => inputRef.current?.click()}
+                        />
+
+                        <img
+                            className='importButton'
+                            onClick={handleSave}
+                            src={saveButton} alt=""
                         />
                     </div>
 
@@ -213,13 +227,12 @@ function DACIC(): React.JSX.Element {
                         <hr />
                         {resultados ? (
                             <ul style={{ listStyle: 'none', padding: 0, lineHeight: '2' }}>
-                                <li><strong>Média (x̄):</strong> {resultados.media.toFixed(4)}</li>
                                 <li><strong>Moda (Mo):</strong> {resultados.moda.toFixed(4)}</li>
+                                <li><strong>Média (x̄):</strong> {resultados.media.toFixed(4)}</li>
                                 <li><strong>Mediana (Md):</strong> {resultados.mediana.toFixed(4)}</li>
                                 <hr style={{ opacity: 0.3, margin: '10px 0' }} />
-                                <li><strong>Amplitude Total:</strong> {resultados.amplitude.toFixed(4)}</li>
-                                <li><strong>Variância (s²):</strong> {resultados.variancia.toFixed(4)}</li>
-                                <li><strong>Desvio Padrão (s):</strong> {resultados.desvio.toFixed(4)}</li>
+                                <li><strong>Amplitude Total:</strong> {resultados.amplitudeTotal.toFixed(4)}</li>
+                                <li><strong>Desvio Padrão (s):</strong> {resultados.desvioPadrao.toFixed(4)}</li>
                             </ul>
                         ) : (
                             <p style={{ opacity: 0.6 }}>Preencha a tabela para visualizar os cálculos.</p>

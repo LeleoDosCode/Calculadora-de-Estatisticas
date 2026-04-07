@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { calcularEstatistica, EstatisticasDescritivas } from "../utils/stats";
+import { salvarResultados } from "@renderer/utils/salvar";
 import { Link } from "react-router-dom";
 import '../assets/DNA.css'
 import '../assets/global.css';
 import voltar from '../assets/frutiger/Aero Voltar.png';
-import aeroVerde from "../assets/frutiger/Aero Verde.png";
-import aeroAzul from "../assets/frutiger/Aero Azul.png";
+import importButton from "../assets/frutiger/importButton.png"
+import saveButton from "../assets/frutiger/saveButton.png"
 import { versao } from '../utils/versao'
 
 function DNA(): React.JSX.Element {
@@ -29,16 +30,9 @@ function DNA(): React.JSX.Element {
   }
 
   const handleSave = () => {
-    const texto = `Resultados:
-Média: ${resultados?.media.toFixed(2)}
-Mediana: ${resultados?.mediana.toFixed(2)}
-Desvio Padrão: ${resultados?.desvioPadrao.toFixed(2)}
-Variância: ${resultados?.variancia.toFixed(2)}
-Minimo: ${resultados?.minimo.toFixed(2)}
-Maximo: ${resultados?.maximo.toFixed(2)}`
-
-    window.api.saveText(texto);
-  }
+    if (!resultados) return;
+    salvarResultados(resultados, 'Dados Não Agrupados (DNA)');
+};
 
   useEffect(() => {
     const arrayNumber = inputValores
@@ -72,47 +66,44 @@ Maximo: ${resultados?.maximo.toFixed(2)}`
           {resultados && (
             <div className="resultados">
               <div className="lista">
-                <ul>
-                  <li><strong>Média: </strong></li>
-                  <li>{resultados.media.toFixed(2)}</li>
-                  <li><strong>Mediana: </strong></li>
-                  <li>{resultados.mediana.toFixed(2)}</li>
-                  <li><strong>Desvio Padrão: </strong></li>
-                  <li>{resultados.desvioPadrao.toFixed(2)}</li>
+                <ul style={{ justifyContent: 'center' }}>
+                  <li><strong>Moda (Mo):</strong></li>
+                  <li>{resultados.moda.toFixed(4)}</li>
+                  <li><strong>Média (x̄):</strong></li>
+                  <li>{resultados.media.toFixed(4)}</li>
+                  <li><strong>Mediana (Md):</strong></li>
+                  <li>{resultados.mediana.toFixed(4)}</li>
                 </ul>
-                <ul>
-                  <li><strong>Variância: </strong></li>
-                  <li>{resultados.variancia.toFixed(2)}</li>
-                  <li><strong>Mínimo: </strong></li>
-                  <li>{resultados.minimo.toFixed(2)}</li>
-                  <li><strong>Máximo: </strong></li>
-                  <li>{resultados.maximo.toFixed(2)}</li>
+                <ul style={{ justifyContent: 'center' }}>
+                  <li><strong>Amplitude Total:</strong></li>
+                  <li>{resultados.amplitudeTotal.toFixed(4)}</li>
+                  <li><strong>Desvio Padrão (s):</strong></li>
+                  <li>{resultados.desvioPadrao.toFixed(4)}</li>
                 </ul>
               </div>
             </div>
           )}
         </div>
 
+        <img
+          style={{ marginBottom: '5%' }}
+          onClick={handleImport}
+          className='importButton'
+          src={importButton} alt=""
+        />
 
-
-        <div onClick={handleImport} className="btn-frutiger btn-dna2">
-          <span>CSV</span>
-          <img src={aeroVerde} alt="" />
-        </div>
-
-        <div className="btn-frutiger btn-dna"
+        <img
+          className='importButton'
           onClick={handleSave}
-        >
-          <span>Salvar</span>
-          <img src={aeroAzul} alt="" />
-        </div>
+          src={saveButton} alt=""
+        />
       </div>
-        <footer>
-          <ul>
-            <li>Grupo 8</li>
-            <li>Versão {versao}</li>
-          </ul>
-        </footer>
+      <footer>
+        <ul>
+          <li>Grupo 8</li>
+          <li>Versão {versao}</li>
+        </ul>
+      </footer>
     </section>
   )
 }

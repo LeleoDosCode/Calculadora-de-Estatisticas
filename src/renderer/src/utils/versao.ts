@@ -1,1 +1,1 @@
-export const versao = "1.2.0"
+export const versao = "1.3.2"
