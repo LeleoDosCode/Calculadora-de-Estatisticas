@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import '../assets/DNA.css'
 import '../assets/global.css';
 import voltar from '../assets/frutiger/Aero Voltar.png';
-import importButton from "../assets/frutiger/importButton.png"
+import importButton from "../assets/frutiger/arquivoButton.png"
 import saveButton from "../assets/frutiger/saveButton.png"
 import { versao } from '../utils/versao'
 

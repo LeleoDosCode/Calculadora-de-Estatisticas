@@ -105,7 +105,7 @@ ipcMain.handle('saveText', async (_event, dados: string) => {
 ipcMain.handle('importCSV', async () => {
   const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openFile'],
-    filters: [{ name: 'Planilha', extensions: ['csv', 'xlsx'] }]
+    filters: [{ name: 'Arquivo', extensions: ['csv', 'xlsx', 'txt'] }]
   });
 
   if (canceled || filePaths.length === 0) {

@@ -1,3 +1,4 @@
+import React from 'react';
 import '../assets/global.css'
 import '../assets/Home.css'
 import { versao } from '../utils/versao';

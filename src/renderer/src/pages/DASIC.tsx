@@ -125,7 +125,7 @@ function DASIC(): React.JSX.Element {
             Papa.parse<string[]>(file, {
                 complete: (result) => {
                     const novasLinhas: LinhaDASIC[] = result.data
-                        .filter(row => row.length >= 3 && row[0] !== '')
+                        .filter(row => row.length >= 2 && row[0] !== '')
                         .map((row, i) => ({
                             id: Date.now() + i,
                             valor: row[0] ?? '',
@@ -143,7 +143,7 @@ function DASIC(): React.JSX.Element {
                 const sheet = workbook.Sheets[workbook.SheetNames[0]];
                 const rows: string[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
                 const novasLinhas: LinhaDASIC[] = rows
-                    .filter(row => row.length >= 3 && row[0] !== undefined)
+                    .filter(row => row.length >= 2 && row[0] !== undefined)
                     .map((row, i) => ({
                         id: Date.now() + i,
                         valor: String(row[0] ?? ''),
