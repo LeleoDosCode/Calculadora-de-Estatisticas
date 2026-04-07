@@ -26,6 +26,49 @@ Para fugir do visual padrão, a interface foi inspirada na estética **Frutiger 
 - Ícones inspirados em bolhas e água.
 - Uma atmosfera tecnológica "otimista" típica dos sistemas operacionais do meio dos anos 2000.
 
+## ⚡ Como Rodar o Projeto
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/) v18 ou superior
+- npm v9 ou superior
+
+### Instalação
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/LeleoDosCode/Calculadora-de-Estatisticas.git
+
+# 2. Entre na pasta do projeto
+cd Calculadora-de-Estatisticas
+
+# 3. Instale as dependências
+npm install
+```
+
+### Executar em desenvolvimento
+
+```bash
+npm run dev
+```
+
+### Gerar executável
+
+```bash
+# Windows
+npm run build:win
+
+# macOS
+npm run build:mac
+
+# Linux
+npm run build:linux
+```
+
+O instalador gerado estará na pasta `dist/`.
+
+---
+
 ## 🛠️ Tecnologias de Escolha
 
 Para este projeto, optei voluntariamente por uma stack moderna de desenvolvimento desktop:
